@@ -99,7 +99,8 @@ def getPredictionModel(dataset_name: str):
   if not os.path.exists(model_path):
     raise FileNotFoundError(f"El archivo de modelo {model_path} no existe.")
     
-  model = torch.load(model_path, map_location=torch.device(DEVICE))
+  model = SAE()
+  model.load_state_dict(torch.load(model_path))
   model.to(DEVICE)
   return model
 
