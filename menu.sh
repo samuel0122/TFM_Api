@@ -6,7 +6,8 @@ mostrar_menu() {
     echo "1) Actualizar dependencias"
     echo "2) Commit todos los cambios"
     echo "3) Probar API"
-    echo "4) Salir"
+    echo "4) Enviar imagen a API"
+    echo "5) Salir"
 }
 
 # Función para actualizar dependencias
@@ -37,6 +38,15 @@ probar_api() {
     echo ""
 }
 
+enviar_imagen_api() {
+    echo "Enviando imagen CleanArchitecture.jpg a API con puerto 5001"
+    curl -X POST http://localhost:5001/process-page \
+      -F "pageId=123" \
+      -F "database=456" \
+      -F "page=@CleanArchitecture.jpg"
+    echo""
+}
+
 # Bucle para mostrar el menú y capturar la opción seleccionada
 while true; do
     mostrar_menu
@@ -53,6 +63,9 @@ while true; do
             probar_api
             ;;
         4)
+            enviar_imagen_api
+            ;;
+        5)
             echo "Saliendo..."
             break
             ;;
