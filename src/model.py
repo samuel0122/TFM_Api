@@ -80,18 +80,18 @@ class SAE(torch.nn.Module):
     return x
   
 def getModelFileName(dataset_name: str, dropout_value: float, uses_redimension_vertical: bool, uses_redimension_horizontal: bool):
-    sae_file = 'SAE'
+  sae_file = 'SAE'
 
-    sae_file += f'_D{int(dropout_value * 10)}'
+  sae_file += f'_D{int(dropout_value * 10)}'
 
-    if uses_redimension_vertical or uses_redimension_horizontal:
-        sae_file += '_R'
-        if uses_redimension_vertical:
-            sae_file += 'V'
-        if uses_redimension_horizontal:
-            sae_file += 'H'
+  if uses_redimension_vertical or uses_redimension_horizontal:
+    sae_file += '_R'
+    if uses_redimension_vertical:
+      sae_file += 'V'
+    if uses_redimension_horizontal:
+      sae_file += 'H'
 
-    return f'{sae_file}_{dataset_name}'
+  return f'{sae_file}_{dataset_name}'
 
 
 def getPredictionModel(dataset_name: str):

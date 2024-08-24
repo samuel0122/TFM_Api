@@ -21,7 +21,12 @@ logging.basicConfig(level=logging.INFO,
 # Obtener el logger
 logger = logging.getLogger(__name__)
 
-@app.route('/status', methods=['GET'])
+API_VERSION = '/api/v1/'
+API_GET_STATUS = 'status'
+API_POST_TEST_PAGE = 'test-page'
+API_POST_PROCESS_IMAGE = 'process-image'
+
+@app.route(f'{API_VERSION}{API_GET_STATUS}', methods=['GET'])
 def status():
     logger.info("Solicitud de estado recibida.")
     return jsonify({
@@ -80,17 +85,17 @@ def process_page_route(req: Request, executeAI = False):
         logger.error(f"Error durante el procesamiento de la página: {str(e)}")
         return jsonify({"error": "An error occurred during processing"}), 500
 
-@app.route('/test-page', methods=['POST'])
+@app.route(f'{API_VERSION}{API_POST_TEST_PAGE}', methods=['POST'])
 def test_page_post():
-    logger.info("Solicitud POST para /test-page recibida.")
+    logger.info(f'Solicitud POST para {API_POST_TEST_PAGE} recibida.')
     return process_page_route(
         req=request, 
         executeAI=False
         )
 
-@app.route('/process-page', methods=['POST'])
+@app.route(f'{API_VERSION}{API_POST_PROCESS_IMAGE}', methods=['POST'])
 def process_page():
-    logger.info("Solicitud POST para /process-page recibida.")
+    logger.info(f'Solicitud POST para {API_POST_PROCESS_IMAGE} recibida.')
     return process_page_route(
         req=request, 
         executeAI=True
