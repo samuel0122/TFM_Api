@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from defines import PredictionsCombinationType
+from src.defines import PredictionsCombinationType
 
 def binarizarTensor(tensor_image, bin_threshold_percentaje = 0.5):
      # convertir el tensor a true/false si superan o no el umbral
