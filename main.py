@@ -104,7 +104,8 @@ def process_page():
 if __name__ == '__main__':
     logger.info("Iniciando la aplicación Flask.")
     try:
-        app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
+        port = int(os.environ.get("PORT", 5000))
+        app.run(debug=True, host='0.0.0.0', port=port)
     except:
         logger.critical(f"Error crítico al iniciar la aplicación Flask: {str(e)}")
         raise  # Re-lanzar la excepción para que también se registre en la consola
