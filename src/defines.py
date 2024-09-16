@@ -49,6 +49,7 @@ class PredictionsCombinationType(Enum):
   NONE = ''
   MEAN = 'mean'
   MAX  = 'max'
+  VOTES = 'votes'
 
 class ForwardParameters:
   def __init__(
@@ -59,7 +60,8 @@ class ForwardParameters:
       train_dropout: float = 0.0,
       val_dropout: float = 0.0,
       times_pass_model: int = 1,
-      type_combination: PredictionsCombinationType = PredictionsCombinationType.NONE
+      type_combination: PredictionsCombinationType = PredictionsCombinationType.NONE,
+      votes_threshold: float = 0.5
     ):
       self.uses_redimension_vertical = uses_redimension_vertical
       self.uses_redimension_horizontal = uses_redimension_horizontal
@@ -68,6 +70,7 @@ class ForwardParameters:
       self.val_dropout = val_dropout
       self.times_pass_model = times_pass_model
       self.type_combination = type_combination
+      self.votes_threshold = votes_threshold
 
 # Datasets
 DATASETS = [
@@ -80,28 +83,31 @@ MODEL_FORWARD_PARAMETERS = [
   ForwardParameters(
     uses_redimension_vertical=True,
     uses_redimension_horizontal = True,
-    bin_umbral=0.5,
+    bin_umbral=0.45,
     train_dropout=0.3,
-    val_dropout=0,
-    times_pass_model=1,
-    type_combination=PredictionsCombinationType.NONE
+    val_dropout=0.3,
+    times_pass_model=63,
+    type_combination=PredictionsCombinationType.VOTES,
+    votes_threshold = 0.5
+  ),
+  ForwardParameters(
+    uses_redimension_vertical=True,
+    uses_redimension_horizontal = True,
+    bin_umbral=0.6,
+    train_dropout=0.2,
+    val_dropout=0.1,
+    times_pass_model=31,
+    type_combination=PredictionsCombinationType.VOTES,
+    votes_threshold = 0.5
   ),
   ForwardParameters(
     uses_redimension_vertical=True,
     uses_redimension_horizontal = True,
     bin_umbral=0.5,
-    train_dropout=0.3,
-    val_dropout=0,
-    times_pass_model=1,
-    type_combination=PredictionsCombinationType.NONE
-  ),
-  ForwardParameters(
-    uses_redimension_vertical=True,
-    uses_redimension_horizontal = True,
-    bin_umbral=0.5,
-    train_dropout=0.3,
-    val_dropout=0,
-    times_pass_model=1,
-    type_combination=PredictionsCombinationType.NONE
+    train_dropout=0.2,
+    val_dropout=0.2,
+    times_pass_model=31,
+    type_combination=PredictionsCombinationType.MEAN,
+    votes_threshold = 0.5
   )
 ]

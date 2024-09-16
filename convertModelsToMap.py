@@ -24,7 +24,7 @@ def reload_and_verify_model(dataset_name: str):
     
     # Crea una nueva instancia del modelo y carga los pesos
     model = SAE()
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path, weights_only=True))
     model.to(DEVICE)
     
     print(f'Model {model_path} reloaded successfully.\n')

@@ -1,12 +1,13 @@
 import cv2
 import numpy as np
+from defines import PredictionsCombinationType
 
 def binarizarTensor(tensor_image, bin_threshold_percentaje = 0.5):
      # convertir el tensor a true/false si superan o no el umbral
     return tensor_image > bin_threshold_percentaje
 
 
-def getConnectedComponents(tensor_image, bin_threshold_percentaje, min_area = 100, morphologyOps = True):
+def getConnectedComponents(tensor_image, bin_threshold_percentaje, min_area = 100, morphologyOps = True, type_combination = PredictionsCombinationType.NONE, votes_threshold = 0.5):
   """
     Input:
       tensor_image: tensor of values [0, 1]
@@ -23,7 +24,15 @@ def getConnectedComponents(tensor_image, bin_threshold_percentaje, min_area = 10
   # binary_image2 = (gray_image > bin_threshold).astype(np.uint8) * 255
 
   # convertir el tensor a true/false si superan o no el umbral
-  pixels_with_higher_umbral = tensor_image.numpy().squeeze() > bin_threshold_percentaje
+  if type_combination == PredictionsCombinationType.VOTES:
+    pixels_with_higher_umbral = [tensor_img.numpy().squeeze() > bin_threshold_percentaje for tensor_img in tensor_image]
+    binary_images = np.array(pixels_with_higher_umbral)
+    sum_of_votes = np.sum(binary_images, axis=0)
+    votes_for_score = len(tensor_image) * votes_threshold
+    pixels_with_higher_umbral = sum_of_votes >= votes_for_score
+
+  else:
+    pixels_with_higher_umbral = tensor_image.numpy().squeeze() > bin_threshold_percentaje
 
   # convertir el tensor en uint8 con valores 0 o 255 en negro/blanco
   binary_image = pixels_with_higher_umbral.astype(np.uint8) * 255
@@ -65,4 +74,3 @@ def getConnectedComponents(tensor_image, bin_threshold_percentaje, min_area = 10
   # drawBoxesPredictedAndGroundTruth(torch.from_numpy(closing), bboxes, targetBoxes, is_normalized = True)
 
   return bboxes
-

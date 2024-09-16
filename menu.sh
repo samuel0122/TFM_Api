@@ -47,6 +47,8 @@ enviar_imagen_api() {
     echo""
 }
 
+# Iniciar .venv -> source .venv/bin/activate
+
 # Bucle para mostrar el menú y capturar la opción seleccionada
 while true; do
     mostrar_menu

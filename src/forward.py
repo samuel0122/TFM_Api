@@ -19,7 +19,7 @@ def get_transform() -> T.Compose:
 def forwardToModel(model: SAE, image, times_pass_model: int, type_combination: PredictionsCombinationType):
     if type_combination == PredictionsCombinationType.MEAN:
         result = model(image.to(DEVICE))
-        for i in range(1, times_pass_model):
+        for i in range(times_pass_model):
             print(f'\r\tForward passing with mean result {i+1}', end='')
             result += model(image.to(DEVICE))
         result /= times_pass_model
@@ -28,14 +28,19 @@ def forwardToModel(model: SAE, image, times_pass_model: int, type_combination: P
 
     elif type_combination == PredictionsCombinationType.MAX:
         result = model(image.to(DEVICE))
-        for i in range(1, times_pass_model):
+        for i in range(times_pass_model):
             print(f'\r\tForward passing with max result {i+1}', end='')
             result = TMax(result, model(image.to(DEVICE)))
         print()
         return result.cpu()
+    
+    elif type_combination == PredictionsCombinationType.VOTES:
+        print(f'\r\tForward passing with voting result {times_pass_model}')
+        return [model(image.to(DEVICE)).cpu() for _ in range(times_pass_model)]
 
     else:
         return model(image.to(DEVICE)).cpu()
+
 
 def TFMForward(
     dataset_name: str, image: PILImage, forwardParameters: ForwardParameters
@@ -74,13 +79,18 @@ def TFMForward(
                                 type_combination=forwardParameters.type_combination
                                 )
 
-        boxes = getConnectedComponents(result, bin_threshold_percentaje=forwardParameters.bin_umbral)
+        boxes = getConnectedComponents( result, 
+                                        bin_threshold_percentaje=forwardParameters.bin_umbral, 
+                                        type_combination=forwardParameters.type_combination, 
+                                        votes_threshold=forwardParameters.votes_threshold
+                                        )
+        
 
         if forwardParameters.uses_redimension_vertical or forwardParameters.uses_redimension_horizontal:
             vResize = BBOX_REDIMENSIONED_RECOVER if forwardParameters.uses_redimension_vertical   else 1
             hResize = BBOX_REDIMENSIONED_RECOVER if forwardParameters.uses_redimension_horizontal else 1
             boxes = [resize_box(box, vResize=vResize, hResize=hResize) for box in boxes]
-            
+    
     x_max, y_max = SAE_IMAGE_SIZE
     boxes = [normalize_box(box, x_max, y_max) for box in boxes]
 

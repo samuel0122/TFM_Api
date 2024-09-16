@@ -100,7 +100,7 @@ def getPredictionModel(dataset_name: str):
     raise FileNotFoundError(f"El archivo de modelo {model_path} no existe.")
     
   model = SAE()
-  model.load_state_dict(torch.load(model_path))
+  model.load_state_dict(torch.load(model_path, weights_only=True))
   model.to(DEVICE)
   return model
 
