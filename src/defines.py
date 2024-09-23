@@ -83,31 +83,31 @@ MODEL_FORWARD_PARAMETERS = [
   ForwardParameters(
     uses_redimension_vertical=True,
     uses_redimension_horizontal = True,
-    bin_umbral=0.55, #0.45
+    bin_umbral=0.45, #0.45
     train_dropout=0.3,
-    val_dropout=0.3, #0.3
-    times_pass_model=63, #63
-    type_combination=PredictionsCombinationType.MEAN, #PredictionsCombinationType.VOTES
+    val_dropout=0, #0.3
+    times_pass_model=1, #63
+    type_combination=PredictionsCombinationType.NONE, #PredictionsCombinationType.VOTES
     votes_threshold = 0.5
   ),
   ForwardParameters(
     uses_redimension_vertical=True,
     uses_redimension_horizontal = True,
-    bin_umbral=0.5, #0.6
+    bin_umbral=0.6, #0.6
     train_dropout=0.2,
-    val_dropout=0.2, #0.1
-    times_pass_model=63, #31
-    type_combination=PredictionsCombinationType.MEAN, #PredictionsCombinationType.VOTES
+    val_dropout=0, #0.1
+    times_pass_model=1, #31
+    type_combination=PredictionsCombinationType.NONE, #PredictionsCombinationType.VOTES
     votes_threshold = 0.5
   ),
   ForwardParameters(
     uses_redimension_vertical=True,
     uses_redimension_horizontal = True,
-    bin_umbral=0.5,
+    bin_umbral=0.5, #0.5
     train_dropout=0.2,
-    val_dropout=0.2,
-    times_pass_model=31,
-    type_combination=PredictionsCombinationType.MEAN,
+    val_dropout=0, #0.2
+    times_pass_model=1, #31
+    type_combination=PredictionsCombinationType.NONE, #PredictionsCombinationType.MEAN
     votes_threshold = 0.5
   )
 ]
