@@ -111,3 +111,11 @@ MODEL_FORWARD_PARAMETERS = [
     votes_threshold = 0.5
   )
 ]
+
+# Carpetas de imágenes
+API_IMAGES_FOLDER = 'static/images'
+API_IMAGES_FOLDERS = {
+    'capitan': f'{API_IMAGES_FOLDER}/Capitan',
+    'seils': f'{API_IMAGES_FOLDER}/SEILS',
+    'fmt_c': f'{API_IMAGES_FOLDER}/FMT_C'
+}
