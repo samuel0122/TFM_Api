@@ -113,7 +113,7 @@ MODEL_FORWARD_PARAMETERS = [
 ]
 
 # Carpetas de imágenes
-API_IMAGES_FOLDER = '~/static/images'
+API_IMAGES_FOLDER = 'static/images'
 API_IMAGES_FOLDERS = {
     'capitan': f'{API_IMAGES_FOLDER}/Capitan',
     'seils': f'{API_IMAGES_FOLDER}/SEILS',
